@@ -1,0 +1,128 @@
+#include <iostream> 
+#include <string>
+#include <stack>
+#include <iomanip>
+using namespace std;
+struct Stock {
+    string symbol;
+    double price;
+};
+stack<Stock> stockStack;
+// Function to add a stock to the stack
+void addStock() {
+    string symbol;
+ double price;
+    cout << "Enter stock symbol: ";
+    cin >> symbol;
+    cout << "Enter stock price: ";
+    cin >> price;
+ Stock newStock;
+    newStock.symbol = symbol;
+    newStock.price = price;
+    stockStack.push(newStock);
+    // Set the output format to fixed with 2 decimal places
+    cout << fixed << setprecision(2);
+    cout << "Stock added to the stack: " << symbol << " - 
+Price: " << newStock.price << endl;
+}
+// Function to search for a stock by symbol
+void searchStock() {
+    string symbol;
+ cout << "Enter stock symbol to search: ";
+ cin >> symbol;
+    stack<Stock> tempStack = stockStack;
+    while (!tempStack.empty()) {
+        Stock stock = tempStack.top();
+        if (stock.symbol == symbol) {
+cout << "Found " << symbol << " with a price of " << fixed 
+<< setprecision(2) << stock.price << endl;
+            return;
+        }
+        tempStack.pop();
+    }
+    cout << symbol << " not found." << endl;
+}
+// Function to delete a stock by symbol
+void deleteStock() {
+    string symbol;
+    cout << "Enter stock symbol to delete: ";
+cin >> symbol;
+     stack<Stock> tempStack;
+    bool found = false;
+    while (!stockStack.empty()) {
+        Stock stock = stockStack.top();
+        if (stock.symbol == symbol) {
+            stockStack.pop();
+            cout << "Stock deleted: " << symbol << endl;
+            found = true;
+ } else {
+tempStack.push(stock);
+            stockStack.pop();
+        }
+    }
+    while (!tempStack.empty()) {
+        stockStack.push(tempStack.top());
+        tempStack.pop();
+    }
+    if (!found) {
+        cout << "No such stock available" << endl;
+    
+}
+}
+void createStack() {
+    while (!stockStack.empty()) {
+        stockStack.pop();
+ }
+    cout << "Stack created (cleared)." << endl;
+}
+void displayStocks() {
+    if (stockStack.empty()) {
+        cout << "No stocks stored yet" << endl;
+    } else {
+ stack<Stock> tempStack = stockStack;
+cout << "\nStock Market Tracker (Stack):" << endl;
+        while (!tempStack.empty()) {
+            Stock stock = tempStack.top();
+            cout << "Symbol: " << stock.symbol << " - Price: 
+" << fixed << setprecision(2) << stock.price << endl;
+            tempStack.pop();
+        }
+    }
+}
+int main() {
+    int choice;
+    do {
+ cout << "\nStock Market Tracker Menu:" << endl;
+        cout << "1. Add Stock" << endl;
+        cout << "2. Search Stock" << endl;
+        cout << "3. Delete Stock" << endl;
+        cout << "4. Create New Stack" << endl;
+        cout << "5. Display Stocks (Stack)" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+ switch (choice) {
+            case 1:
+                addStock();
+                break;
+case 2:
+                searchStock();
+                break;
+            case 3:
+                deleteStock();
+                break;
+ case 4:
+                createStack();
+                break;
+            case 5:
+                displayStocks();
+                break;
+            case 6:
+                cout << "Exiting the program." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 6);
+  return 0;
+}
